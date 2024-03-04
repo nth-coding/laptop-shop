@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="~{fragments::header}"></head>
+<body id="page-top">
+
+<!-- Bọc Trang -->
+<div id="wrapper">
+
+    <!--Thanh bên-->
+    <ul th:replace="~{fragments::sidebar}"></ul>
+    <!-- Kết thúc thanh bên -->
+
+    <!-- Bọc Nội dung -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Nội dung chính -->
+        <div id="content">
+
+            <!-- Thanh trên -->
+            <nav th:replace="~{fragments::top-navbar}"></nav>
+            <!-- Kết thúc thanh trên -->
+
+            <!-- Bắt đầu Nội dung Trang -->
+            <div class="container-fluid">
+
+                <!-- Tiêu đề Trang -->
+                <h1 class="h3 mb-4 text-gray-800">Chi Tiết Đơn Hàng</h1>
+
+                <div class="order-details">
+                    <p><strong>Mã Đơn Hàng:</strong> <span th:text="${order.id}"></span></p>
+                    <p><strong>Ngày Đặt Hàng:</strong> <span th:text="${order.orderDate}"></span></p>
+                    <p><strong>Ngày Giao Hàng:</strong> <span th:text="${order.deliveryDate}"></span></p>
+                    <p><strong>Trạng Thái Đơn Hàng:</strong> <span th:text="${order.orderStatus}"></span></p>
+                    <p><strong>Tổng Giá:</strong> <span th:text="${#numbers.formatDecimal(order.totalPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></span></p>
+                    <p><strong>Tổng Số Lượng:</strong> <span th:text="${order.quantity}"></span></p>
+                    <p><strong>Thuế:</strong> <span th:text="${order.tax}"></span></p>
+                    <p><strong>Phương Thức Thanh Toán:</strong> <span th:text="${order.paymentMethod}"></span></p>
+                    <p><strong>Khách Hàng:</strong> <span th:text="${order.customer.username}"></span></p>
+                </div>
+
+                <!-- Hiển thị Danh Sách Chi Tiết Đơn Hàng -->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Số Lượng</th>
+                        <th>Giá Nhập</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="orderDetail : ${orderDetails}">
+                        <td th:text="${orderDetail.product.name}"></td>
+                        <td th:text="${orderDetail.quantity}"></td>
+                        <td th:text="${#numbers.formatDecimal(orderDetail.product.costPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.container-fluid -->
+
+            <!-- Footer -->
+            <footer th:replace="~{fragments::footer}"></footer>
+            <!-- Kết thúc Footer -->
+
+        </div>
+        <!-- Kết thúc Bọc Nội dung -->
+
+    </div>
+</div>
+<!-- Kết thúc Bọc Trang -->
+
+<!-- Nút cuộn lên đầu Trang-->
+<a th:replace="~{fragments::scroll}"></a>
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}"></head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Thanh bên -->
+    <ul th:replace="~{fragments::sidebar}"></ul>
+    <!-- Kết thúc thanh bên -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Nội dung chính -->
+        <div id="content">
+
+            <!-- Thanh trên -->
+            <nav th:replace="~{fragments::top-navbar}"></nav>
+            <!-- Kết thúc thanh trên -->
+
+            <!-- Bắt đầu nội dung trang -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleAddBlogModal"
+                    data-whatever="@mdo">Thêm blog mới
+            </button>
+            <p th:if="${size == 0}">Không có blog</p>
+            <div th:if="${success}" class="text-center alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
+            <div th:if="${error}" class="text-center alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+
+            <table class="table table-striped" th:if="${size > 0}">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Mô tả</th>
+                    <th scope="col">Nội dung</th>
+                    <th scope="col">Tác giả</th>
+                    <th scope="col">Ngày tạo</th>
+                    <th scope="col">Ngày cập nhật</th>
+                    <th scope="col">Ảnh nội dung</th>
+                    <th scope="col">Ảnh thumbnail</th>
+                    <th scope="col">Cập nhật</th>
+                    <th scope="col">Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="blog : ${blogs}">
+                    <th scope="row" th:text="${blog.id}"></th>
+                    <td th:text="${blog.name}"></td>
+                    <td th:text="${blog.description}"></td>
+                    <td th:text="${blog.content}"></td>
+                    <td th:text="${blog.author}"></td>
+                    <td th:text="${blog.createdAt}"></td>
+                    <td th:text="${blog.updatedAt}"></td>
+                    <td>
+                        <img class="my-product-image" style="height: 40px; width: 40px;" alt=""
+                             th:src="'data:image/jpeg;base64,' + ${blog.image}">
+                    </td>
+                    <td>
+                        <img th:if="${blog.thumbnailImage}" class="my-product-image" style="height: 40px; width: 40px;" alt=""
+                             th:src="'data:image/jpeg;base64,' + ${blog.thumbnailImage}">
+                    </td>
+                    <td>
+                        <a th:href="@{/update-blog/{id}(id = ${blog.id})}"
+                           class="btn btn-primary">Cập nhật
+                        </a>
+                    </td>
+                    <td>
+                        <a th:if="${blog.deleted} == false" th:href="@{/delete-blog(id = ${blog.id})}"
+                           class="btn btn-danger">Ẩn</a>
+                        <a th:if="${blog.deleted} == true" th:href="@{/enable-blog(id = ${blog.id})}"
+                           class="btn btn-success">Hiện</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Kết thúc nội dung chính -->
+
+            <!-- Footer -->
+            <footer th:replace="~{fragments::footer}"></footer>
+            <!-- Kết thúc Footer -->
+
+        </div>
+        <!-- Kết thúc Content Wrapper -->
+
+    </div>
+</div>
+<!-- Kết thúc Page Wrapper -->
+
+<!-- Nút cuộn lên đầu trang-->
+<a th:replace="~{fragments::scroll}"></a>
+
+<!-- Modal Thêm Blog -->
+<div class="modal fade" id="exampleAddBlogModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleAddBlogModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleAddBlogModalLabel">Blog mới</h5>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/save-blog}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Tên Blog:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Mô tả Blog:</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="content" class="col-form-label">Nội dung Blog:</label>
+                        <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="author" class="col-form-label">Tác giả Blog:</label>
+                        <input type="text" class="form-control" id="author" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Upload Picture:</label>
+                        <input type="file" class="form-control" id="image" name="picture">
+                    </div>
+                    <div class="form-group">
+                        <label for="thumbnail">Upload Thumbnail Picture:</label>
+                        <input type="file" class="form-control" id="thumbnail" name="thumbnail">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Kết thúc Modal Thêm Blog -->
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+
+<script>
+    window.onload = function() {
+        var contents = document.querySelectorAll('td:nth-child(4)'); // Chọn tất cả các ô nội dung của blog
+        contents.forEach(function(content) {
+            if (content.textContent.length > 100) {
+                content.textContent = content.textContent.substring(0, 100) + '...'; // Giới hạn 100 ký tự và thêm '...'
+            }
+        });
+    };
+</script>
+<script th:src="@{/js/blogs.js}"></script>
+
+</body>
+
+</html>

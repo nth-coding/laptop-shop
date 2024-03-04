@@ -1,0 +1,55 @@
+<!-- Inside your "blog-view.html" Thymeleaf template -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Trang Chủ - FPT Shop 2020</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <link th:href = "@{css/bootstrap.css}" rel="stylesheet" />
+        <!--    <link th:href = "@{css/bootstrap-icons.css}" rel="stylesheet" />-->
+        <link th:href = "@{css/owl.carousel.min.css}" rel="stylesheet" />
+        <link th:href = "@{css/owl.theme.default.min.css}" rel="stylesheet" />
+        <link th:href = "@{css/jquery.fancybox.min.css}" rel="stylesheet" />
+        <link th:href = "@{css/jsRapClock.css}" rel="stylesheet" />
+        <link th:href = "@{css/jquery.jqZoom.css}" rel="stylesheet" />
+        <link th:href = "@{css/style.css}" rel="stylesheet" />
+
+        <script th:src= "@{js/jquery-3.0.0.js}"></script>
+        <script th:src= "@{js/bootstrap.bundle.js}"></script>
+        <script th:src= "@{js/jquery.nicescroll.js}"></script>
+        <script th:src= "@{js/owl.carousel.min.js}"></script>
+        <script th:src= "@{js/jquery.fancybox.min.js}"></script>
+        <script th:src= "@{js/jsRapClock.js}"></script>
+        <script th:src= "@{js/jquery.jqZoom.js}"></script>
+        <script th:src= "@{js/jquery-stars.js}"></script>
+        <script th:src= "@{js/jquery.scrollAds.js}"> </script>
+        <script th:src= "@{js/script.js}"></script>
+
+</head>
+<body>
+<div th:replace="fragments :: header"></div>
+<div th:replace="fragments :: nav"></div>
+
+<div class="container" style="background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 20px; margin-top: 20px">
+    <div class="blog-list">
+        <h2 th:text="${title}"></h2>
+        <div th:each="blog : ${blogs}" class="row mb-4">
+            <div style="margin-top: 20px;">
+                <a th:href="@{'/blog-detail/' + ${blog.id}}" class="blog-a" style="text-decoration: none">
+                    <div class="blog-entry"  style="text-decoration: none">
+                        <img th:src="'data:image/jpeg;base64,' + ${blog.thumbnailImage}" alt="image" style="float: left; margin-right: 10px; padding-right: 10px; width: 20%"/>
+                        <h4 th:text="${blog.name}"></h4>
+                        <p th:text="${blog.description}" style="text-align: justify; color: #6d6d6d; font-size: small"></p>
+                        <span>Xem chi tiết</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+<!-- Add your JavaScript links here -->
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="~{fragments::header}"></head>
+<body id="page-top">
+<style>
+    body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper {
+    display: flex;
+}
+
+#content-wrapper {
+    width: 100%;
+}
+
+.feedback-card {
+    border: 1px solid #ddd;
+    margin: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-card h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.feedback-card p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* Add more styles as needed */
+
+</style>
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!--Sidebar-->
+    <ul th:replace="~{fragments::sidebar}"></ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="~{fragments::top-navbar}"></nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div th:if="${feedbacks == null or #lists.isEmpty(feedbacks)}">
+                <p>No feedback available for this product.</p>
+            </div>
+
+            <table class="table table-striped" th:if="${feedbacks != null && !#lists.isEmpty(feedbacks)}">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nội Dung</th>
+                    <th scope="col">Ngày Tạo</th>
+                    <th scope="col">Ngày Cập Nhật</th>
+                    <th scope="col">Tên Người Dùng</th>
+                    <th scope="col">Tên Sản Phẩm</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="feedback : ${feedbacks}" th:attr="data-feedbackid=${feedback.id}, data-feedbackmessage=${feedback.message}, data-feedbackcreateddate=${feedback.createdDate}, data-feedbackupdateddate=${feedback.updatedDate}, data-feedbackcustomerusername=${feedback.customer.username}, data-feedbackproductname=${feedback.product.name}" onclick="displayFeedbackInfoModal(this)">
+                    <th scope="row" th:text="${feedback.id}"></th>
+                    <td th:text="${feedback.message}"></td>
+                    <td th:text="${feedback.createdDate}"></td>
+                    <td th:text="${feedback.updatedDate}"></td>
+                    <td th:text="${feedback.customer.username}"></td>
+                    <td th:text="${feedback.product.name}"></td>
+                    <td>
+                        <a id="editButton"
+                           th:href="@{/findByFeedbackId(id = ${feedback.id})}"
+                           class="btn btn-primary">Sửa</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/delete-feedback(id = ${feedback.id})}"
+                           class="btn btn-danger">Xóa</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer th:replace="~{fragments::footer}"></footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace="~{fragments::scroll}"></a>
+
+<!-- End -->
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+
+<script>
+    window.onload = function() {
+        var descriptions = document.querySelectorAll('td:nth-child(3)'); // Select all feedback description cells
+        descriptions.forEach(function(description) {
+            if (description.textContent.length > 100) {
+                description.textContent = description.textContent.substring(0, 100) + '...'; // Limit to 100 characters and append '...'
+            }
+        });
+    };
+</script>
+</body>
+
+</html>

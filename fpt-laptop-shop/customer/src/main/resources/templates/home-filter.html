@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trang Chủ - FPT Shop 2020</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+    <!--    <link th:href = "@{/css/bootstrap-icons.css}" rel="stylesheet" />-->
+    <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/owl.theme.default.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jsRapClock.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jquery.jqZoom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/jquery.fancybox.min.js}"></script>
+    <script th:src="@{/js/jsRapClock.js}"></script>
+    <script th:src="@{/js/jquery.jqZoom.js}"></script>
+    <script th:src="@{/js/jquery-stars.js}"></script>
+    <script th:src="@{/js/jquery.scrollAds.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
+</head>
+<body>
+<div th:replace="fragments :: header"></div>
+<div th:replace="fragments :: nav"></div>
+
+<style>
+    .main-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px;
+    }
+
+    .sidebar {
+        width: 20%;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .content-box {
+        margin-bottom: 20px;
+    }
+
+    .main-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px;
+    }
+
+    .sidebar {
+        width: 20%;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .content {
+        flex: 1;
+        max-width: 75%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start; /* Align sản phẩm về phía trái */
+    }
+
+    .content li {
+        width: calc(100% / 4 - 20px); /* Điều chỉnh chiều rộng của mỗi sản phẩm, 4 sản phẩm mỗi dòng */
+        margin-bottom: 20px;
+    }
+
+    .content-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Khoảng cách giữa các sản phẩm */
+        justify-content: space-around; /* Cân đối chiều ngang */
+    }
+
+    .product-card {
+        width: calc(25% - 20px); /* Điều chỉnh chiều rộng của mỗi sản phẩm, 4 sản phẩm mỗi dòng */
+        margin-bottom: 20px;
+        box-sizing: border-box; /* Tránh chiều rộng vượt quá giới hạn */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content-wrapper .product-card:only-child {
+        width: 100%;
+    }
+</style>
+
+<div class="main-container">
+    <aside class="sidebar">
+        <form action="/shop/home" method="get">
+            <div class="filter-box">
+                <div class="content-box">
+                    <strong>Hãng sử dụng</strong>
+                </div>
+
+                <ul>
+<!--                    <li>-->
+<!--                        <input type="checkbox" id="all-brands" name="brands" value="" checked/>-->
+<!--                        <label for="all-brands">Tất cả</label>-->
+<!--                    </li>-->
+                    <li th:each="brand : ${brands}">
+                        <input type="checkbox" class="brand-checkbox" th:id="${brand.name}" th:name="brands" th:value="${brand.name}"
+                               th:checked="${param.brands != null and #arrays.contains(param.brands, brand.name)}"
+                               onclick="uncheckAllBrands(this)"/>
+                        <label th:for="${brand.name}" th:text="${brand.name}"></label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="filter-box">
+                <div class="content-box">
+                    <strong>Hạng mục sử dụng</strong>
+                </div>
+
+                <ul>
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="category-checkbox" id="all-categories" name="category" value="" checked-->
+<!--                               onclick="uncheckOthers(this)"/>-->
+<!--                        <label for="all-categories">Tất cả</label>-->
+<!--                    </li>-->
+                    <li th:each="category : ${categories}">
+                        <input type="checkbox" class="category-checkbox" th:id="${category.name}" th:name="categories" th:value="${category.name}"
+                               th:checked="${param.categories != null and #arrays.contains(param.categories, category.name)}"
+                               onclick="uncheckOthers(this)"/>
+                        <label th:for="${category.name}" th:text="${category.name}"></label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="filter-box">
+                <div class="content-box">
+                    <strong>Mức giá</strong>
+                </div>
+
+                <ul>
+                    <li>
+                        <input type="checkbox" class="price-checkbox" id="price-1" name="price" value="1" th:checked="${param.price != null and #arrays.contains(param.price, '1')}"
+                               onclick="uncheckOthersPrice(this)"/>
+                        <label for="price-1">Dưới 3 triệu</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="price-checkbox" id="price-2" name="price" value="2" th:checked="${param.price != null and #arrays.contains(param.price, '2')}"
+                               onclick="uncheckOthersPrice(this)"/>
+                        <label for="price-2">3 - 8 triệu</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="price-checkbox" id="price-3" name="price" value="3" th:checked="${param.price != null and #arrays.contains(param.price, '3')}"
+                               onclick="uncheckOthersPrice(this)"/>
+                        <label for="price-3">8 - 15 triệu</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="price-checkbox" id="price-4" name="price" value="4" th:checked="${param.price != null and #arrays.contains(param.price, '4')}"
+                               onclick="uncheckOthersPrice(this)"/>
+                        <label for="price-4">Trên 15 triệu</label>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </aside>
+
+    <content>
+        <section class="home-product">
+            <div class="container">
+                <div class="background">
+                    <div class="title">
+                        <p th:if="${products.size() != 0}" th:text="'Kết quả tìm kiếm: ' + ${products.size()} + ' sản phẩm'"></p>
+                        <p th:if="${products.size() == 0}">Không tìm thấy sản phẩm nào</p>
+                    </div>
+                    <div class="content-wrapper">
+                        <ul class="row content">
+                            <li class="col-lg-4 col-6 product-card" th:each="product : ${products}">
+                                <div class="background">
+                                    <div class="avatar">
+                                        <a class="zoom-box" th:href="@{'/product-detail/' + ${product.getId()}}">
+                                            <img th:src="'data:image/jpeg;base64,' + ${product.image}">
+                                        </a>
+                                        <label class="installment">Trả góp 0%</label>
+                                        <label class="bonus">Lì xì 1.000.000đ</label>
+                                    </div>
+                                    <a class="title" th:href="@{'/product-detail/' + ${product.getId()}}"
+                                       th:text="${product.getName()}"></a>
+                                    <div class="price">
+                                        <span th:text="${#numbers.formatDecimal(product.costPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+                                        <small>
+                                            <del th:text="${#numbers.formatDecimal(product.salePrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></del>
+                                            <em>2 ngày 05:01:02</em>
+                                        </small>
+                                    </div>
+                                    <div class="desc">
+                                        <label><i class="bi-cpu-fill"></i> <span>A14 Bionic</span></label>
+                                        <label><i class="bi-phone"></i> <span>6.7&Prime;</span></label>
+                                        <label><i class="bi-grip-vertical"></i> <span>6 Gb</span></label>
+                                        <label><i class="bi-hdd-fill"></i> <span>128 Gb</span></label>
+                                    </div>
+                                    <div class="button">
+                                        <a class="btn btn-danger" href="#">Mua ngay</a>
+                                        <a class="btn btn-secondary" href="#">So sánh</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </content>
+</div>
+<div th:replace="fragments :: footer"></div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all checkboxes
+        var checkboxes = document.querySelectorAll('input[type=checkbox]');
+
+        // Add event listener to each checkbox
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                // Submit the form when a checkbox state changes
+                checkbox.form.submit();
+            });
+        });
+    });
+</script>
+</html>

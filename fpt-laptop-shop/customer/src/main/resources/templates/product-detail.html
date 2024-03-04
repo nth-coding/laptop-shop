@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trang Chủ - FPT Shop 2020</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+    <!--    <link th:href = "@{/css/bootstrap-icons.css}" rel="stylesheet" />-->
+    <link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/owl.theme.default.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jquery.fancybox.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jsRapClock.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jquery.jqZoom.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <script th:src="@{/js/jquery-3.0.0.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/jquery.fancybox.min.js}"></script>
+    <script th:src="@{/js/jsRapClock.js}"></script>
+    <script th:src="@{/js/jquery.jqZoom.js}"></script>
+    <script th:src="@{/js/jquery-stars.js}"></script>
+    <script th:src="@{/js/jquery.scrollAds.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
+
+
+    <script>
+        function increment() {
+            var input = document.querySelector('.product_quantity-cart');
+            var value = parseInt(input.value, 10);
+            if (value < 100) {
+                input.value = isNaN(value) ? 0 : value + 1;
+            }
+        }
+
+        function decrement() {
+            var input = document.querySelector('.product_quantity-cart');
+            var value = parseInt(input.value, 10);
+            if (value > 1) {
+                input.value = isNaN(value) ? 0 : value - 1;
+            }
+        }
+    </script>
+
+
+    <style>
+        main {
+            background-color: white;
+        }
+
+        .content_left {
+            width: 100%;
+        }
+
+        .content_right {
+            width: 100%;
+            padding-left: 40px;
+        }
+
+        .img_product {
+            width: 100%;
+            height: auto;
+        }
+
+        .add_to_cart {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #d9d9d9;
+        }
+
+        .quantity {
+            display: flex;
+            height: 40px;
+            border: 1px solid #000;
+            border-radius: 16px;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 23px;
+            justify-content: space-around;
+            align-items: center;
+            width: 100px;
+            user-select: none;
+        }
+
+        .sub_product_btn {
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .add_product_btn {
+            user-select: none;
+            cursor: pointer;
+        }
+
+
+        .action {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            border-radius: 16px;
+            border: 2px solid #cb1c22;
+            background-color: #cb1c22;
+            color: #fff;
+            padding: 0 30px;
+            cursor: pointer;
+            width: 70%;
+        }
+
+        .item {
+            width: 200px;
+        }
+
+        .action:hover {
+            background-color: #ae1427;
+        }
+
+        .name_other_product {
+            color: #495057;
+            cursor: pointer;
+        }
+
+        .name_other_product:hover {
+            color: #0168fa;
+        }
+
+        .comment {
+            margin-bottom: 20px;
+        }
+
+        .comment__header {
+            display: flex;
+            align-items: center;
+        }
+
+        .comment__header__avatar img {
+            border-radius: 50%; /* Làm cho hình ảnh trở nên tròn */
+            width: 40px; /* Điều chỉnh kích thước hình ảnh avatar */
+            height: 40px;
+            object-fit: cover; /* Đảm bảo hình ảnh tròn với đúng tỷ lệ */
+            margin-right: 10px;
+        }
+
+        .comment__header__info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comment__header__info__name {
+            font-weight: bold;
+        }
+
+        .comment__header__info__time {
+            color: #888;
+        }
+
+        .comment__content {
+            margin-top: 10px;
+        }
+
+        .delete-fb-btn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px;
+        }
+
+        /* Style for edit button */
+        .edit-fb-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .delete-btn,
+        .edit-fb-btn {
+            display: none;
+        }
+
+        .toggle-btn {
+            background-color: transparent;
+            border: none;
+            color: #000; /* Màu chữ của nút "..." */
+            font-size: 20px; /* Điều chỉnh kích thước của biểu tượng "..." */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+<nav th:replace="fragments :: nav"></nav>
+<main>
+    <section class="product-detail">
+        <div class="container">
+            <div class="background">
+                <div class="title border-bottom mb-3">
+                    <h2 th:text="${title}"></h2>
+                    <div th:text="'Trang chủ / ' + ${productDetail.id}"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <article class="content_left">
+                        <img th:src="'data:image/jpeg;base64,' + ${productDetail.image}"
+                             class="img_product img-fluid rounded"
+                             alt="Image">
+                    </article>
+                </div>
+
+                <div class="col">
+                    <article class="content_right">
+                        <form th:action="@{/add-to-cart}" method="post">
+                            <input type="hidden" th:value="${productDetail.id}" name="id" />
+
+                            <div class="product-details">
+                                <h2 th:text="${productDetail.name}"></h2>
+                                <span th:text="'Giá: ' + ${productDetail.formattedCostPrice} + 'đ'"></span>
+                                <div th:text="'Số lượng còn lại: ' + ${productDetail.currentQuantity}"></div>
+
+                                <div class="add_to_cart pb-3 mt-3">
+                                    <div class="quantity">
+                                        <div class="sub_product_btn" onclick="decrement()">-</div>
+                                        <input class="product_quantity-cart form-control"  name="quantity" style="border: none; width: 34px" th:value="1" />
+                                        <div class="add_product_btn" onclick="increment()">+</div>
+                                    </div>
+                                    <div class="action">
+                                        <input type="submit" class="action btn hvr-hover" value="Thêm vào giỏ hàng">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Đặc điểm nổi bật:</h4>
+                            <p th:text="${productDetail.description}"></p>
+
+                            <h4>Thông số kỹ thuật</h4>
+                            </br>
+                            <ul>
+                                <li th:text="'CPU: ' + ${productDetail.cpu}"></li>
+                                <li th:text="'RAM: ' + ${productDetail.ram}"></li>
+                                <li th:text="'Ổ cứng: ' + ${productDetail.storage}"></li>
+                                <li th:text="'Card đồ họa: ' + ${productDetail.vga}"></li>
+                                <li th:text="'Màn hình: ' + ${productDetail.screen}"></li>
+                            </ul>
+                        </form>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="related-products mt-5">
+        <div class="container">
+            <h2 class="text-center">Sản phẩm liên quan</h2>
+            <div class="products-carousel owl-carousel owl-theme">
+                <div class="item" th:each="product, iterStat : ${products}">
+                    <form th:action="@{/add-to-cart}" method="post">
+                        <div class="products-single fix">
+                            <div class="box-img-hover">
+                                <img th:src="'data:image/jpeg;base64,' + ${product.image}" class="img-fluid rounded"
+                                     alt="Image">
+                                <div class="mask-icon">
+                                    <input type="hidden" th:value="${product.id}" name="id" class="form-control">
+                                    <input type="submit" class="btn hvr-hover" value="Add to cart">
+                                </div>
+                            </div>
+                            <div>
+                                <h4 th:text="${product.name}" class="name_other_product"></h4>
+                                <span style="color: #cb1c22" th:text="${productDetail.formattedCostPrice} + 'đ'"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="feedback-section mt-5">
+        <div class="container">
+            <h2 class="text-center">Phản hồi</h2>
+            <form th:action="@{/add-feedback}" method="post">
+                <input type="hidden" th:value="${productDetail.id}" name="productId" />
+                <div class="form-group">
+                    <label for="message">Đánh giá của bạn:</label>
+                    <input type="text" id="message" name="message" class="form-control" required>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Submit Feedback">
+            </form>
+            <div class="old-feedbacks mt-5">
+                <div th:each="feedback : ${feedbacks}" class="row">
+                    <div class="col">
+                        <div class="comment">
+                            <div class="comment__header">
+                                <div class="comment__header__avatar">
+                                    <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar">
+                                </div>
+                                <div class="comment__header__info">
+                                    <div class="comment__header__info__name" th:text="${feedback.getCustomer().getUsername()}"></div>
+                                    <div class="comment__header__info__time">2 giờ trước</div>
+                                </div>
+                                <button type="button" class="toggle-btn" th:id="'toggle-btn-' + ${feedback.id}" th:onclick="'openFeedback(' + ${feedback.id} + ')'">...</button>
+                                <form th:action="@{/delete-feedback}" method="post" th:id="'delete-btn-' + ${feedback.id}" class="delete-btn">
+                                    <input type="hidden" name="id" th:value="${feedback.id}" />
+                                    <button class="delete-fb-btn" type="submit">Delete</button>
+                                </form>
+                                <button type="button" class="edit-fb-btn"  th:id="'edit-button-' + ${feedback.id}" data-toggle="modal" data-target="#editFeedbackModal" th:onclick="'editFeedback(' + ${feedback.id} + ')'">Edit</button>
+                            </div>
+                            <div class="comment__content">
+                                <p th:id="'feedback-text-' + ${feedback.id}" th:text="${feedback.getMessage()}"></p>
+                                <form id="update-form-${feedback.id}" th:action="@{/update-feedback}" method="post" style="display: none;">
+                                    <input type="hidden" name="id" th:value="${feedback.id}" />
+                                    <input id="update-input-${feedback.id}" type="text" name="feedback" th:value="${feedback.getMessage()}" />
+                                    <button type="submit">Save</button>
+                                </form>
+                            </div>
+
+                            <!-- Add edit and delete buttons only for the user who posted the comment -->
+<!--                            <button type="button" class="toggle-btn" th:id="'toggle-btn-' + ${feedback.id}" th:onclick="'openFeedback(' + ${feedback.id} + ')'">...</button>-->
+<!--                            <form th:action="@{/delete-feedback}" method="post" th:id="'delete-btn-' + ${feedback.id}" class="delete-btn">-->
+<!--                                <input type="hidden" name="id" th:value="${feedback.id}" />-->
+<!--                                <button class="delete-fb-btn" type="submit">Delete</button>-->
+<!--                            </form>-->
+<!--                            <button type="button" class="edit-fb-btn"  th:id="'edit-button-' + ${feedback.id}" data-toggle="modal" data-target="#editFeedbackModal" th:onclick="'editFeedback(' + ${feedback.id} + ')'">Edit</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editFeedbackModal" tabindex="-1" role="dialog" aria-labelledby="editFeedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFeedbackModalLabel">Edit Feedback</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/update-feedback}" method="post" class="feedback-form">
+                    <div class="modal-body">
+                        <input type="hidden" id="update-id" name="id" />
+                        <div class="form-group">
+                            <label for="update-feedback" class="col-form-label">Feedback:</label>
+                            <input type="text" class="form-control" id="update-feedback" name="feedback" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments :: footer"></footer>
+</body>
+
+<script>
+    document.querySelector('.add_product_btn').addEventListener('click', function() {
+        var quantityInput = document.getElementById('quantity');
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+    });
+
+    document.querySelector('.sub_product_btn').addEventListener('click', function() {
+        var quantityInput = document.getElementById('quantity');
+        if (parseInt(quantityInput.value) > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+        }
+    });
+
+    function openFeedback(feedbackId) {
+        // Get the delete and edit buttons corresponding to the feedback
+        var deleteButton = document.querySelector('#delete-btn-' + feedbackId);
+        var editButton = document.querySelector('#edit-button-' + feedbackId);
+
+        // Toggle the visibility of delete and edit buttons
+        deleteButton.style.display = deleteButton.style.display === 'none' ? 'inline-block' : 'none';
+        editButton.style.display = editButton.style.display === 'none' ? 'inline-block' : 'none';
+    }
+
+    function editFeedback(feedbackId) {
+        // Get the feedback text element and the update form inputs
+        var feedbackText = document.getElementById('feedback-text-' + feedbackId);
+        var updateId = document.getElementById('update-id');
+        var updateFeedback = document.getElementById('update-feedback');
+
+        // Populate the update form with the current feedback id and message
+        updateId.value = feedbackId;
+        updateFeedback.value = feedbackText.textContent;
+
+        // Show the modal
+        $('#editFeedbackModal').modal('show');
+    }
+
+    document.getElementById('message').addEventListener('input', function(event) {
+        var feedbackContent = event.target.value;
+        var maxLength = 80; // Set your desired maximum length here
+
+        if (feedbackContent.length > maxLength) {
+            alert('Your feedback is too long! Please keep it under ' + maxLength + ' characters.');
+        }
+    });
+</script>
+</html>

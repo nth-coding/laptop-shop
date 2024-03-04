@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<!-- Basic -->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trang Chủ - FPT Shop 2020</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link th:href = "@{css/bootstrap.css}" rel="stylesheet" />
+    <link th:href = "@{css/owl.carousel.min.css}" rel="stylesheet" />
+    <link th:href = "@{css/owl.theme.default.min.css}" rel="stylesheet" />
+    <link th:href = "@{css/jquery.fancybox.min.css}" rel="stylesheet" />
+    <link th:href = "@{css/jsRapClock.css}" rel="stylesheet" />
+    <link th:href = "@{css/jquery.jqZoom.css}" rel="stylesheet" />
+    <link th:href = "@{css/style.css}" rel="stylesheet" />
+
+    <script th:src= "@{js/jquery-3.0.0.js}"></script>
+    <script th:src= "@{js/bootstrap.bundle.js}"></script>
+    <script th:src= "@{js/jquery.nicescroll.js}"></script>
+    <script th:src= "@{js/owl.carousel.min.js}"></script>
+    <script th:src= "@{js/jquery.fancybox.min.js}"></script>
+    <script th:src= "@{js/jsRapClock.js}"></script>
+    <script th:src= "@{js/jquery.jqZoom.js}"></script>
+    <script th:src= "@{js/jquery-stars.js}"></script>
+    <script th:src= "@{js/jquery.scrollAds.js}"> </script>
+    <script th:src= "@{js/script.js}"></script>
+
+    <style>
+        .cart-box-main {
+            background-color: #fff;
+        }
+
+        .table-responsive {
+            overflow-x: initial;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments :: header"></div>
+<div th:replace="fragments :: nav"></div>
+
+<!-- Start Cart  -->
+<main>
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Tổng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="orderdetail : ${order.orderDetailList}">
+                                <td class="thumbnail-img">
+                                    <a th:href="@{'/product-detail/' + ${orderdetail.getProduct().getId()}}">
+                                        <img class="img-fluid rounded"
+                                             th:src="'data:image/jepg;base64,' + ${orderdetail.product.image}" alt="image" style="width: 120px"/>
+                                    </a>
+                                </td>
+                                <td class="name-pr align-middle">
+                                    <a th:href="@{'/product-detail/' + ${orderdetail.getProduct().getId()}}">
+                                        <p th:text="${orderdetail.product.name}"></p>
+                                    </a>
+                                </td>
+                                <td class="price-pr align-middle">
+                                    <p th:text="${#numbers.formatDecimal(orderdetail.product.costPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></p>
+                                </td>
+                                <td class="align-middle">
+                                    <p th:text="${orderdetail.quantity}"></p>
+                                </td>
+                                <td class="align-middle">
+                                    <p th:text="${#numbers.formatDecimal(orderdetail.product.costPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="row my-5">
+                            <div class="col-lg-7 col-sm-12"></div>
+                            <div class="col-lg-5 col-sm-12">
+                                <div class="order-box">
+                                    <h3>Thông tin đơn hàng ([(${order.quantity})] sản phẩm)</h3>
+                                    <div class="d-flex align-content-center justify-content-sm-between">
+                                        <h5 th:text="'Phương thức thanh toán: ' + ${order.paymentMethod}"></h5>
+                                        <h5 class="" th:text="'Giá: ' + ${#numbers.formatDecimal(order.totalPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"> </h5>
+                                    </div>
+                                    <hr class="my-1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- End Cart -->
+<div th:replace="fragments :: footer"></div>
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="~{fragments::header}"></head>
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!--Thanh bên-->
+    <ul th:replace="~{fragments::sidebar}"></ul>
+    <!-- Kết thúc thanh bên -->
+
+    <!-- Bọc Nội dung -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Nội dung chính -->
+        <div id="content">
+
+            <!-- Thanh trên -->
+            <nav th:replace="~{fragments::top-navbar}"></nav>
+            <!-- Kết thúc thanh trên -->
+
+            <!-- Bắt đầu Nội dung Trang -->
+            <div th:if="${success}" class="text-center alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
+            <div class="table-main table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="order-date">Mã đơn hàng</th>
+                        <th class="order-date">Ngày đặt hàng</th>
+                        <th>Ngày nhận hàng</th>
+                        <th class="price-pr">Trạng thái đơn hàng</th>
+                        <th class="quantity-box">Tổng giá</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Xác nhận nhận hàng</th>
+                        <th>Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td class="order-id" th:text="${order.id}"></td>
+                        <td class="order-date">
+                            <span><b>[(${order.orderDate})]</b></span>
+                        </td>
+                        <td class="name-pr" th:text="${order.deliveryDate}"></td>
+                        <td class="price-pr">
+                            <p th:text="${order.orderStatus}"></p>
+                        </td>
+                        <td class="total-pr">
+                            <p style="color: red" th:text="${#numbers.formatDecimal(order.totalPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></p>
+                        </td>
+                        <td class="total-pr" style="color: black">
+                            <span>[(${order.paymentMethod})]</span>
+                        </td>
+                        <td>
+                            <a th:if="${order.accept} != false and ${order.orderStatus} != 'Cancelled'" th:href="@{/cancel-order(id = ${order.id})}"
+                               class="btn btn-primary">Hủy</a>
+                            <a th:if="${order.accept} == false" th:href="@{/accept-order(id = ${order.id})}"
+                               class="btn btn-secondary">Chấp nhận</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/update-order/{id}(id= ${order.id})}" class="btn btn-primary">Cập Nhật</a>
+                            <a th:href="@{/order-detail/{id}(id=${order.id})}" class="btn btn-info">Xem đơn hàng</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Kết thúc Nội dung Chính -->
+
+            <!-- Footer -->
+            <footer th:replace="~{fragments::footer}"></footer>
+            <!-- Kết thúc Footer -->
+
+        </div>
+        <!-- Kết thúc Bọc Nội dung -->
+
+    </div>
+</div>
+<!-- Kết thúc Page Wrapper -->
+
+<!-- Nút cuộn lên đầu Trang-->
+<a th:replace="~{fragments::scroll}"></a>
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+
+<script>
+    $(document).ready(function() {
+        // Khi nút "Xem đơn hàng" được nhấp, điền modal với chi tiết đơn hàng
+        $('.btn-info').click(function() {
+            var orderId = $(this).data('order');
+            $('#orderDetailsOrderId').text(orderId);
+
+            // Thêm mã ở đây để truy xuất và hiển thị thêm chi tiết đơn hàng
+
+            // Hiển thị modal
+            $('#orderDetailsModal').modal('show');
+        });
+    });
+
+    $(document).ready(function() {
+        // Khi nút "Xem đơn hàng" được nhấp, điền modal với chi tiết đơn hàng
+        $('.view-order-btn').click(function() {
+            var orderId = $(this).data('order-id');
+            var orderDetails = $(this).data('order-details');
+
+            // Điền modal với orderId
+            $('#orderDetailsOrderId').text(orderId);
+
+            // Hiển thị orderDetails trong modal
+            var tableBody = $('#orderDetailsTableBody');
+            tableBody.empty(); // Xóa các dòng hiện tại
+
+            // Lặp qua orderDetails và thêm các dòng vào bảng
+            $.each(orderDetails, function(index, orderDetail) {
+                var row = '<tr>' +
+                    '<td>' + orderDetail.product.name + '</td>' +
+                    '<td>' + orderDetail.quantity + '</td>' +
+                    '<td>' + orderDetail.product.costPrice + '</td>' +
+                    '</tr>';
+                tableBody.append(row);
+            });
+
+            // Hiển thị modal
+            $('#orderDetailsModal').modal('show');
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}"></head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Thanh bên -->
+    <ul th:replace="~{fragments::sidebar}"></ul>
+    <!-- Kết thúc thanh bên -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Nội dung chính -->
+        <div id="content">
+
+            <!-- Thanh trên -->
+            <nav th:replace="~{fragments::top-navbar}"></nav>
+            <!-- Kết thúc thanh trên -->
+
+            <!-- Bắt đầu nội dung trang -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleAddCustomerModal"
+                    data-whatever="@mdo">Thêm khách hàng mới
+            </button>
+            <p th:if="${size == 0}">Không có khách hàng</p>
+            <div th:if="${success}" class="text-center alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
+            <div th:if="${error}" class="text-center alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+
+            <table class="table table-striped" th:if="${size > 0}">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Tên/Email</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Địa chỉ</th>
+                    <th scope="col">Ngày sinh</th>
+                    <th scope="col">Giới tính</th>
+                    <th scppe="col">Kích hoạt</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="customer : ${customers}" th:attr="data-customerid=${customer.id}, data-customername=${customer.firstName + ' ' + customer.lastName}, data-customerusername=${customer.username}, data-customerphonenumber=${customer.phoneNumber}, data-customeraddress=${customer.address}, data-customerbirthday=${customer.birthday}, data-customergender=${customer.gender}" onclick="displayCustomerInfoModal(this)">
+                    <th scope="row" th:text="${customer.id}"></th>
+                    <td>
+                        <strong th:text="${customer.firstName + ' ' + customer.lastName}"></strong>
+                        <br>
+                        <span th:text="${customer.username}"></span>
+                    </td>
+                    <td th:text="${customer.phoneNumber != null ? customer.phoneNumber : 'Không xác định'}"></td>
+                    <td th:text="${customer.address != null ? customer.address : 'Không xác định'}"></td>
+                    <td th:text="${customer.birthday != null ? customer.birthday : 'Không xác định'}"></td>
+                    <td th:text="${customer.gender != null ? customer.gender : 'Không xác định'}"></td>
+                    <td>
+                        <a th:if="${customer.activated} == false" th:href="@{/enable-customer(id = ${customer.id})}"
+                           class="btn btn-primary">Kích hoạt</a>
+                    </td>
+                    <td>
+                        <a id="editButton"
+                           th:href="@{/findByCustomerId(id = ${customer.id})}"
+                           class="btn btn-primary">Cập nhật</a>
+                    </td>
+                    <td>
+                        <a th:if="${customer.deleted} == true" th:href="@{/enable-customer(id = ${customer.id})}"
+                           class="btn btn-primary">Kích hoạt</a>
+                        <a th:if="${customer.deleted} == false" th:href="@{/delete-customer(id = ${customer.id})}"
+                           class=" btn btn-danger">Xóa</a>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#customerInfoModal">Xem chi tiết</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Kết thúc nội dung chính -->
+
+            <!-- Footer -->
+            <footer th:replace="~{fragments::footer}"></footer>
+            <!-- Kết thúc Footer -->
+
+        </div>
+        <!-- Kết thúc Content Wrapper -->
+
+    </div>
+</div>
+<!-- Kết thúc Page Wrapper -->
+
+<!-- Nút cuộn lên đầu trang-->
+<a th:replace="~{fragments::scroll}"></a>
+
+<!-- Modal Thêm Khách hàng -->
+<div class="modal fade" id="exampleAddCustomerModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleAddCustomerModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleAddCustomerModalLabel">Khách hàng mới</h5>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/save-customer}" method="post">
+                    <div class="form-group">
+                        <label for="username" class="col-form-label">Email:</label>
+                        <input type="email" class="form-control" id="username" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Mật khẩu:</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword" class="col-form-label">Xác nhận mật khẩu:</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+                        <span id="passwordError" style="color: red;"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName" class="col-form-label">Họ của khách hàng:</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="col-form-label">Tên của khách hàng:</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName">
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber" class="col-form-label">Số điện thoại:</label>
+                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-form-label">Địa chỉ:</label>
+                        <input type="text" class="form-control" id="address" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="country" class="col-form-label">Quốc gia:</label>
+                        <select id="country" name="country" class="form-control" onchange="enableCity()">
+                            <option value="" selected>Chưa có thông tin</option>
+                            <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city" class="col-form-label">Thành phố:</label>
+                        <select id="city" name="city" class="form-control" disabled>
+                            <option value="" selected>Chưa có thông tin</option>
+                            <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Kết thúc Modal Thêm Khách hàng -->
+
+<!-- Modal Chỉnh sửa Khách hàng -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa khách hàng</h5>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/update-customer}" method="put">
+                    <div class="form-group">
+                        <label for="idEdit" class="col-form-label">ID
+                        </label> <input type="text" class="form-control" id="idEdit" name="id" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameEdit" class="col-form-label">Tên khách hàng</label> <input type="text" class="form-control" id="nameEdit" name="name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Kết thúc Modal Chỉnh sửa Khách hàng -->
+
+<!-- Modal Xem Chi tiết Khách hàng -->
+<div class="modal fade" id="customerInfoModal" tabindex="-1" role="dialog" aria-labelledby="customerInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerInfoModalLabel">Thông tin Khách hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <strong><label for="customerId">ID:</label></strong>
+                    <p id="customerId"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="customerName">Tên khách hàng:</label></strong>
+                    <p id="customerName"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="customerUsername">Email:</label></strong>
+                    <p id="customerUsername"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="customerPhoneNumber">Số điện thoại:</label></strong>
+                    <p id="customerPhoneNumber"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="customerAddress">Địa chỉ:</label></strong>
+                    <p id="customerAddress"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="customerBirthday">Ngày sinh:</label></strong>
+                    <p id="customerBirthday"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="customerGender">Giới tính:</label></strong>
+                    <p id="customerGender"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- Nút "Edit Customer" -->
+                <button type="button" class="btn btn-warning" id="editCustomerBtn">Edit Customer</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+
+<script>
+    function enableCity() {
+        var countrySelect = document.getElementById('country');
+        var citySelect = document.getElementById('city');
+        if (countrySelect.value) {
+            citySelect.disabled = false;
+        } else {
+            citySelect.disabled = true;
+        }
+    }
+
+    document.getElementById('country').addEventListener('change', function() {
+        var countryId = this.value;
+        var citySelect = document.getElementById('city');
+        citySelect.innerHTML = ""; // Xóa các lựa chọn hiện tại
+        if (countryId) {
+            fetch('/admin/cities-by-country/' + countryId)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Thêm lựa chọn mặc định
+                    var defaultOption = document.createElement('option');
+                    defaultOption.value = "";
+                    defaultOption.text = "Chưa có thông tin";
+                    citySelect.add(defaultOption);
+
+                    // Thêm thành phố
+                    data.forEach(city => {
+                        var option = document.createElement('option');
+                        option.value = city.id;
+                        option.text = city.name;
+                        citySelect.add(option);
+                    });
+                    citySelect.disabled = false;
+                })
+                .catch(error => console.error('Error:', error));
+        } else {
+            citySelect.disabled = true;
+        }
+    });
+
+    var password = document.getElementById("password");
+    var confirmPassword = document.getElementById("confirmPassword");
+    var passwordError = document.getElementById("passwordError");
+
+    function validatePassword(){
+        if(password.value != confirmPassword.value) {
+            passwordError.textContent = "Mật khẩu không khớp.";
+        } else {
+            passwordError.textContent = "";
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirmPassword.onkeyup = validatePassword;
+
+    function displayCustomerInfoModal(element) {
+        // Extract data attributes from the clicked row
+        var customerId = element.getAttribute('data-customerid');
+        var customerName = element.getAttribute('data-customername');
+        var customerUsername = element.getAttribute('data-customerusername');
+        var customerPhoneNumber = element.getAttribute('data-customerphonenumber');
+        var customerAddress = element.getAttribute('data-customeraddress');
+        var customerBirthday = element.getAttribute('data-customerbirthday');
+        var customerGender = element.getAttribute('data-customergender');
+
+        // Display the extracted data in the modal
+        document.getElementById('customerId').textContent = customerId;
+        document.getElementById('customerName').textContent = customerName;
+        document.getElementById('customerUsername').textContent = customerUsername;
+        document.getElementById('customerPhoneNumber').textContent = customerPhoneNumber;
+        document.getElementById('customerAddress').textContent = customerAddress;
+        document.getElementById('customerBirthday').textContent = customerBirthday;
+        document.getElementById('customerGender').textContent = customerGender;
+
+        // Show the modal
+        $('#customerInfoModal').modal('show');
+    }
+
+</script>
+<script th:src="@{/js/customers.js}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- Bootstrap CSS -->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Trang Chủ - FPT Shop 2020</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <link th:href="@{css/bootstrap.css}" rel="stylesheet"/>
+<!--        <link th:href="@{css/bootstrap-icons.css}" rel="stylesheet"/>-->
+        <link th:href="@{css/owl.carousel.min.css}" rel="stylesheet"/>
+        <link th:href="@{css/owl.theme.default.min.css}" rel="stylesheet"/>
+        <link th:href="@{css/jquery.fancybox.min.css}" rel="stylesheet"/>
+        <link th:href="@{css/jsRapClock.css}" rel="stylesheet"/>
+        <link th:href="@{css/jquery.jqZoom.css}" rel="stylesheet"/>
+        <link th:href="@{css/style.css}" rel="stylesheet"/>
+
+        <script th:src="@{js/jquery-3.0.0.js}"></script>
+        <script th:src="@{js/bootstrap.bundle.js}"></script>
+        <script th:src="@{js/jquery.nicescroll.js}"></script>
+        <script th:src="@{js/owl.carousel.min.js}"></script>
+        <script th:src="@{js/jquery.fancybox.min.js}"></script>
+        <script th:src="@{js/jsRapClock.js}"></script>
+        <script th:src="@{js/jquery.jqZoom.js}"></script>
+        <script th:src="@{js/jquery-stars.js}"></script>
+        <script th:src="@{js/jquery.scrollAds.js}"></script>
+        <script th:src="@{js/script.js}"></script>
+    </head>
+    <style>
+        /* Tùy chỉnh CSS cho trang user profile */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .profile-header {
+            background: url('https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg') no-repeat center;
+            background-size: cover;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: -1;
+        }
+
+        .profile-container {
+            margin-top: 50px;
+        }
+
+        .profile-sidebar {
+            color: black;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .profile-sidebar .nav-link:hover {
+            color: #cccccc;
+        }
+
+        .profile-sidebar .nav-link {
+            color: #FFFFFF;
+        }
+
+        .profile-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments :: header"></div>
+<div class="container profile-container">
+    <div class="row">
+        <!-- Phần bên trái -->
+        <div class="col-md-3" th:replace="fragments :: subMenu"></div>
+
+        <!-- Phần bên phải -->
+        <div class="col-md-9">
+            <div class="profile-content">
+                <h2>Thông tin cá nhân của bạn</h2>
+                <hr>
+                <p>Thông tin cá nhân của bạn được bảo mật và chỉ được sử dụng cho mục đích giao dịch mua bán trên
+                    FPTShop.com.vn</p>
+                <br>
+                <div th:if="${success}" class="alert alert-success" role="alert">
+                    <p th:text="${success}"></p>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <form th:action="@{/update-profile}" method="post" name="signupForm" id="signupForm" th:object="${customer}">
+                            <div class="mb-6 row">
+                                <label for="username" class="col-sm-5 col-form-label">Tên Đăng Nhập*</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="username" class="form-control-plaintext" th:value="*{username}" disabled>
+                                </div>
+                            </div>
+
+                            <!-- Trường ẩn để giữ giá trị được gửi đi cùng với form -->
+                            <input type="hidden" id="hiddenUsername" name="username" th:value="*{username}">
+
+                            <div class="mb-6 row">
+                                <label for="firstName" class="col-sm-5 col-form-label">Tên</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="firstname" class="form-control-plaintext" th:field="*{firstName}">
+                                </div>
+                            </div>
+
+                            <div class="mb-6 row">
+                                <label for="lastName" class="col-sm-5 col-form-label">Họ</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="lastname" class="form-control-plaintext" th:field="*{lastName}">
+                                </div>
+                            </div>
+
+                            <div class="mb-6 row">
+                                <label for="phoneNumber" class="col-sm-5 col-form-label">Số Điện Thoại</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="phoneNumber" class="form-control-plaintext" th:field="*{phoneNumber}">
+                                </div>
+                            </div>
+
+                            <div class="mb-6 row">
+                                <label for="address" class="col-sm-5 col-form-label">Địa Chỉ</label>
+                                <div class="col-sm-6">
+                                    <input type="text" id="address" class="form-control-plaintext" th:field="*{address}">
+                                </div>
+                            </div>
+
+                            <!-- ... mã HTML hiện tại ... -->
+
+                            <!-- Lựa chọn giới tính -->
+                            <div class="mb-6 row">
+                                <label class="col-sm-5 col-form-label">Giới Tính</label>
+                                <div class="col-sm-6">
+                                    <div style="display: inline-block; margin-right: 20px;">
+                                        <input type="radio" id="male" name="gender" value="male" th:checked="${customer.gender == 'male'}">
+                                        <label for="male">Nam</label>
+                                    </div>
+                                    <div style="display: inline-block;">
+                                        <input type="radio" id="female" name="gender" value="female" th:checked="${customer.gender == 'female'}">
+                                        <label for="female">Nữ</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Lựa chọn ngày sinh -->
+                            <div class="mb-6 row">
+                                <label for="birthday" class="col-sm-5 col-form-label">Ngày Sinh</label>
+                                <div class="col-sm-6">
+                                    <input type="date" id="birthday" name="birthday" class="form-control-plaintext" th:value="*{birthday}">
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; padding-top: 2rem;">
+                                <button class="btn btn-primary" type="submit">Lưu</button>
+                                <a th:href="@{/change-password}" class="btn btn-primary text-center">Đổi Mật Khẩu</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments :: footer"></div>
+<!-- Bootstrap JS và Popper.js (để sử dụng các tính năng Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    window.onload = function() {
+        var form = document.querySelector('form');
+
+        form.addEventListener('submit', function(event) {
+            var inputFields = form.querySelectorAll('input');
+
+            for (var i = 0; i < inputFields.length; i++) {
+                if (inputFields[i].type !== 'hidden' && (inputFields[i].value.trim() === '' || inputFields[i].value === null)) {
+                    event.preventDefault();
+                    alert('Please fill out all fields.');
+                    return;
+                }
+            }
+            alert("Your customer info has been changed successfully!");
+        });
+    }
+</script>
+</body>
+</html>

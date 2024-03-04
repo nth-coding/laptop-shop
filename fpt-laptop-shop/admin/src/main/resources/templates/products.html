@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:replace="~{fragments::sidebar}">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="~{fragments::top-navbar}">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <div class="input-group" style="width: 30%; margin-bottom: 20px;">
+                    <form th:action="@{/search-products/0}" method="get">
+                        <input type="text" class="form-control rounded" placeholder="Tìm kiếm" name="keyword"
+                               aria-label="Tìm kiếm"
+                               aria-describedby="search-addon"/>
+                        <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+                    </form>
+                </div>
+                <a th:href="@{/add-product}" class="btn btn-primary">Thêm Sản Phẩm</a>
+                <a th:href="@{/update-product-quantity}" class="btn btn-primary">Nhập Hàng</a>
+                <p th:if="${size == 0} ">Không có Sản Phẩm</p>
+                <div th:if="${success}" class="text-center alert alert-success">
+                    <p th:text="${success}"></p>
+                </div>
+                <div th:if="${error}" class="text-center alert alert-danger">
+                    <p th:text="${error}"></p>
+                </div>
+                <table class="table table-bordered" th:if="${size > 0}">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Mô Tả</th>
+                        <th scope="col">Danh Mục</th>
+                        <th scope="col">Nhãn Hiệu</th>
+                        <th scope="col">Giá Nhập</th>
+                        <th scope="col">Giá Bán</th>
+                        <th scope="col">Số Lượng</th>
+                        <th scope="col">Ảnh</th>
+                        <th scope="col">Cập Nhật</th>
+                        <th scope="col">Hành Động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}"
+                        th:attr="data-productid=${product.id},
+              data-productname=${product.name},
+              data-productdescription=${product.description},
+              data-productcategory=${product.category.name},
+              data-productbrand=${product.brand.name},
+              data-productcostprice=${product.costPrice},
+              data-productsaleprice=${product.salePrice},
+              data-productquantity=${product.currentQuantity},
+              data-productimage=${product.image},
+              data-productmeta=${product.meta},
+              data-productscreen=${product.screen},
+              data-productcpu=${product.cpu},
+              data-productvga=${product.vga},
+              data-productram=${product.ram},
+              data-productstorage=${product.storage}"
+                        onclick="displayProductInfoModal(this)">
+                        <th scope="row" th:text="${product.id}"></th>
+                        <th scope="row" th:text="${product.name}"></th>
+                        <td th:text="${product.description}"></td>
+                        <td th:text="${product.category.name}"></td>
+                        <td th:text="${product.brand.name}"></td>
+                        <td th:text="${#numbers.formatDecimal(product.costPrice, 1, 'COMMA', 0, 'POINT')}"></td>
+                        <td th:text="${#numbers.formatDecimal(product.salePrice, 1, 'COMMA', 0, 'POINT')}"></td>
+                        <td th:text="${product.currentQuantity}"></td>
+                        <td>
+                            <img class="my-product-image" style="height: 40px; width: 40px;" alt=""
+                                 th:src="'data:image/jpeg;base64,' + ${product.image}">
+                        </td>
+                        <td>
+                            <a th:href="@{/update-product/{id}(id= ${product.id})}" class="btn btn-primary">Cập Nhật</a>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#productInfoModal">Xem Sản Phẩm</button>
+                        </td>
+                        <td>
+                            <a th:if="${product.deleted} == true" th:href="@{/enable-product(id = ${product.id})}"
+                               class="btn btn-primary">Kích Hoạt</a>
+                            <a th:href="@{/feedback/} + ${product.id}"
+                               class="btn btn-danger">Hiển Thị Phản Hồi</a>
+                            <a th:if="${product.deleted} == false" th:href="@{/delete-product(id = ${product.id})}"
+                               class="btn btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--Pagination  -->
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li th:if="${currentPage != 0}" class="page-item ">
+                            <a th:href="@{'/products/' + ${currentPage - 1}}" class="page-link">Trước</a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                            th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                            <a th:href="@{'/products/' + ${i - 1}}" class="page-link" href="#">
+                                <span th:text="${i}">
+                                </span></a></li>
+                        <li th:if="${currentPage + 1 != totalPages}" class="page-item">
+                            <a th:href="@{'/products/' + ${currentPage + 1}}" class="page-link" href="#">Tiếp</a>
+                        </li>
+                    </ul>
+                </nav>
+                <!--Pagination  -->
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments::footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+<!-- Modal View Product Details -->
+<div class="modal fade" id="productInfoModal" tabindex="-1" role="dialog" aria-labelledby="productInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productInfoModalLabel">Product Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <strong><label for="productId">ID:</label></strong>
+                    <p id="productId"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productName">Tên:</label></strong>
+                    <p id="productName"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productDescription">Mô tả:</label></strong>
+                    <p id="productDescription"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productImage">Ảnh:</label></strong>
+                    <img id="productImage" style="height: 100px; width: 100px;" alt="">
+                </div>
+                <div class="form-group">
+                    <strong><label for="productScreen">Screen:</label></strong>
+                    <p id="productScreen"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productCpu">CPU:</label></strong>
+                    <p id="productCpu"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productVga">VGA:</label></strong>
+                    <p id="productVga"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productRam">RAM:</label></strong>
+                    <p id="productRam"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productStorage">Storage:</label></strong>
+                    <p id="productStorage"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productCategory">Danh Mục Sản Phẩm:</label></strong>
+                    <p id="productCategory"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productBrand">Nhãn Hiệu Sản Phẩm:</label></strong>
+                    <p id="productBrand"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productCostPrice">Giá Nhập:</label></strong>
+                    <p id="productCostPrice"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productSalePrice">Giá Bán:</label></strong>
+                    <p id="productSalePrice"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="productQuantity">Số Lượng:</label></strong>
+                    <p id="productQuantity"></p>
+                </div>
+
+                <!-- Add more fields as needed -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scroll to Top Button-->
+<a th:replace="~{fragments::scroll}">
+</a>
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var productInfoModal = $('#productInfoModal');
+
+        // Listen for click event on the "View Product" button
+        $('button[data-target="#productInfoModal"]').on('click', function () {
+            var productId = $(this).closest('tr').find('th:first-child').text(); // Get product ID from the row in the table
+            var productInfo = getProductInfo(productId); // This function needs to be replaced with logic to fetch product information from the server
+
+            // Display information in the modal
+            productInfoModal.find('#productId').text(productInfo.id);
+            productInfoModal.find('#productName').text(productInfo.name);
+            productInfoModal.find('#productDescription').text(productInfo.description);
+            productInfoModal.find('#productCategory').text(productInfo.category);
+            productInfoModal.find('#productBrand').text(productInfo.brand);
+            productInfoModal.find('#productCostPrice').text(productInfo.costPrice);
+            productInfoModal.find('#productSalePrice').text(productInfo.salePrice);
+            productInfoModal.find('#productQuantity').text(productInfo.quantity);
+            productInfoModal.find("#productMeta").html(productInfo.meta);
+
+            // Show the modal
+            productInfoModal.modal('show');
+        });
+
+        // This function needs to be replaced with logic to fetch product information from the server
+        function getProductInfo(productId) {
+            // Replace this with the actual code to fetch product information
+            var productName = "Example Product";
+            var productDescription = "This is an example description for the product.";
+            var productCategory = "Example Category";
+            var productBrand = "Example Brand";
+            var productCostPrice = "100.00";
+            var productSalePrice = "150.00";
+            var productQuantity = "10";
+            var cpu = "Intel Core i5";
+            var ram = "8GB";
+            var storage = "256GB SSD";
+            var screen = "15.6 inch";
+            var vga = "NVIDIA GeForce GTX 1650";
+
+            var productCostPriceDecimal = convertScientificToDecimal(productCostPrice);
+            var productSalePriceDecimal = convertScientificToDecimal(productSalePrice);
+            return {
+                id: productId,
+                name: productName,
+                description: productDescription,
+                category: productCategory,
+                brand: productBrand,
+                costPrice: productCostPriceDecimal,
+                salePrice: productSalePriceDecimal,
+                quantity: productQuantity,
+                cpu: cpu,
+                ram: ram,
+                storage: storage,
+                screen: screen,
+                vga: vga
+            };
+        }
+
+        function scientificToDecimal(num) {
+            var sign = num < 0 ? "-" : "";
+            var str = Math.abs(num).toString();
+            var result;
+
+            if (str.indexOf("E") !== -1) {
+                var exponent = parseInt(str.split("-")[1], 10);
+                result = num.toFixed(exponent);
+            } else {
+                result = str;
+            }
+
+            return sign + result;
+        }
+
+        function convertScientificToDecimal(scientificNotation) {
+            var number = parseFloat(scientificNotation);
+            var decimalString = number.toLocaleString('en-US', { maximumFractionDigits: 0 });
+            return decimalString;
+        }
+    });
+
+    function displayProductInfoModal(element) {
+        var productId = element.getAttribute('data-productid');
+        var productName = element.getAttribute('data-productname');
+        var productDescription = element.getAttribute('data-productdescription');
+        var productCategory = element.getAttribute('data-productcategory');
+        var productBrand = element.getAttribute('data-productbrand');
+        var productCostPrice = element.getAttribute('data-productcostprice');
+        var productSalePrice = element.getAttribute('data-productsaleprice');
+        var productQuantity = element.getAttribute('data-productquantity');
+        var productImage = element.getAttribute('data-productimage');
+        var productScreen = element.getAttribute('data-productscreen');
+        var productCpu = element.getAttribute('data-productcpu');
+        var productVga = element.getAttribute('data-productvga');
+        var productRam = element.getAttribute('data-productram');
+        var productStorage = element.getAttribute('data-productstorage');
+
+        document.getElementById('productId').textContent = productId;
+        document.getElementById('productName').textContent = productName;
+        document.getElementById('productDescription').textContent = productDescription;
+        document.getElementById('productCategory').textContent = productCategory;
+        document.getElementById('productBrand').textContent = productBrand;
+        document.getElementById('productCostPrice').textContent = convertScientificToDecimal(productCostPrice) + " VND";
+        document.getElementById('productSalePrice').textContent = convertScientificToDecimal(productSalePrice) + " VND";
+        document.getElementById('productQuantity').textContent = productQuantity;
+        document.getElementById('productImage').src = 'data:image/jpeg;base64,' + productImage;
+        document.getElementById('productScreen').textContent = productScreen;
+        document.getElementById('productCpu').textContent = productCpu;
+        document.getElementById('productVga').textContent = productVga;
+        document.getElementById('productRam').textContent = productRam;
+        document.getElementById('productStorage').textContent = productStorage;
+
+
+        // Show the modal
+        $('#productInfoModal').modal('show');
+    }
+
+    function convertScientificToDecimal(scientificNotation) {
+        var number = parseFloat(scientificNotation);
+        var decimalString = number.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        return decimalString;
+    }
+</script>
+
+</html>

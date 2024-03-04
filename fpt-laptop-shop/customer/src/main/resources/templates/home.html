@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trang Chủ - FPT Shop 2020</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link th:href = "@{css/bootstrap.css}" rel="stylesheet" />
+<!--    <link th:href = "@{css/bootstrap-icons.css}" rel="stylesheet" />-->
+    <link th:href = "@{css/owl.carousel.min.css}" rel="stylesheet" />
+    <link th:href = "@{css/owl.theme.default.min.css}" rel="stylesheet" />
+    <link th:href = "@{css/jquery.fancybox.min.css}" rel="stylesheet" />
+    <link th:href = "@{css/jsRapClock.css}" rel="stylesheet" />
+    <link th:href = "@{css/jquery.jqZoom.css}" rel="stylesheet" />
+    <link th:href = "@{css/style.css}" rel="stylesheet" />
+
+    <script th:src= "@{js/jquery-3.0.0.js}"></script>
+    <script th:src= "@{js/bootstrap.bundle.js}"></script>
+    <script th:src= "@{js/jquery.nicescroll.js}"></script>
+    <script th:src= "@{js/owl.carousel.min.js}"></script>
+    <script th:src= "@{js/jquery.fancybox.min.js}"></script>
+    <script th:src= "@{js/jsRapClock.js}"></script>
+    <script th:src= "@{js/jquery.jqZoom.js}"></script>
+    <script th:src= "@{js/jquery-stars.js}"></script>
+    <script th:src= "@{js/jquery.scrollAds.js}"> </script>
+    <script th:src= "@{js/script.js}"></script>
+    </head>
+<body>
+<div th:replace="fragments :: header"></div>
+<div th:replace="fragments :: nav"></div>
+<content>
+    <section class="main-carousel">
+        <div class="container">
+            <div class="owl-carousel owl-theme">
+                <a data-fancybox="gallery" th:href = "@{images/image/carousel/home-carousel/01.png}">
+                    <img th:src="@{images/image/carousel/home-carousel/01.png}">
+                </a>
+                <a data-fancybox="gallery" th:href = "@{images/image/carousel/home-carousel/02.png}">
+                    <img th:src="@{images/image/carousel/home-carousel/02.png}">
+                </a>
+                <a data-fancybox="gallery" th:href = "@{images/image/carousel/home-carousel/03.png}">
+                    <img th:src="@{images/image/carousel/home-carousel/03.png}">
+                </a>
+                <a data-fancybox="gallery" th:href = "@{images/image/carousel/home-carousel/04.png}">
+                    <img th:src="@{images/image/carousel/home-carousel/04.png}">
+                </a>
+                <a data-fancybox="gallery" th:href = "@{images/image/carousel/home-carousel/05.png}">
+                    <img th:src="@{images/image/carousel/home-carousel/05.png}">
+                </a>
+                <a data-fancybox="gallery" th:href = "@{images/image/carousel/home-carousel/06.png}">
+                    <img th:src="@{images/image/carousel/home-carousel/06.png}">
+                </a>
+                <a data-fancybox="gallery" th:href = "@{images/image/carousel/home-carousel/07.png}">
+                    <img th:src="@{images/image/carousel/home-carousel/07.png}">
+                </a>
+                <a data-fancybox="gallery" th:href = "@{images/image/carousel/home-carousel/08.png}">
+                    <img th:src="@{staticimages/image/carousel/home-carousel/08.png}">
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="home-category">
+        <div class="container">
+            <div class="row">
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/dien-thoai.png}" />
+                        </figure>
+                        <div>Điện thoại</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/laptop.png}" />
+                        </figure>
+                        <div>Laptop</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/apple.png}" />
+                        </figure>
+                        <div>Apple</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/tablet.png}" />
+                        </figure>
+                        <div>Máy Tính Bảng</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/smart-watch.png}" />
+                        </figure>
+                        <div>Đồng Hồ Thông Minh</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/sac_du_phong.png}" />
+                        </figure>
+                        <div>Sạc Dự Phòng</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/may_cu.png}" />
+                        </figure>
+                        <div>Máy Cũ</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/monitor2x.png}" />
+                        </figure>
+                        <div>Màn Hình</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/may_loc_khong_khi.png}" />
+                        </figure>
+                        <div>Máy Lọc Không Khí</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/kinhcuongluc.png}" />
+                        </figure>
+                        <div>Kính Cường Lực</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/may-tinh-de-ban.png}" />
+                        </figure>
+                        <div>Máy Tính Để Bàn</div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 col-lg-2">
+                    <a href="#">
+                        <figure>
+                            <img th:src="@{images/image/category/may-in.png}" />
+                        </figure>
+                        <div>Máy In</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="home-bonus">
+        <div class="container">
+            <div class="background">
+                <h2>Khuyến mãi Hot</h2>
+                <div class="bonus-carousel">
+                    <div id="bonus-carousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-lg-3 col-6">
+                                        <figure>
+                                            <a href="#" >
+                                                <img class="w-100" th:src="@{images/image/laptop/acer/1cf82f2160b145999bf6058c3d5bcd3c.jpg}" />
+                                            </a>
+                                        </figure>
+                                        <a href="#">
+                                            <strong>Laptop Asus Pro A392</strong>
+                                        </a>
+                                        <small>19.980.000đ</small>
+                                        <del>25.000.000đ</del>
+                                    </div>
+                                    <div class="col-lg-3 col-6">
+                                        <figure>
+                                            <a href="#">
+                                                <img class="w-100" th:src="@{images/image/laptop/acer/1cf82f2160b145999bf6058c3d5bcd3c.jpg}" />
+                                            </a>
+                                        </figure>
+                                        <a href="#">
+                                            <strong>Laptop Acer Pro A392</strong>
+                                        </a>
+                                        <small>19.980.000đ</small>
+                                    </div>
+                                    <div class="col-lg-3 col-6">
+                                        <figure>
+                                            <a href="#">
+                                                <img class="w-100" th:src="@{images/image/laptop/acer/1cf82f2160b145999bf6058c3d5bcd3c.jpg}" />
+                                            </a>
+                                        </figure>
+                                        <a href="#">
+                                            <strong>Macbook Pro</strong>
+                                        </a>
+                                        <small>12.980.000đ</small>
+                                        <del>24.000.000đ</del>
+                                    </div>
+                                    <div class="col-lg-3 col-6">
+                                        <figure>
+                                            <a href="#">
+                                                <img class="w-100" th:src="@{images/image/laptop/acer/1cf82f2160b145999bf6058c3d5bcd3c.jpg}" />
+                                            </a>
+                                        </figure>
+                                        <a href="#">
+                                            <strong>Dell Vostro A394</strong>
+                                        </a>
+                                        <small>19.980.000đ</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="row">
+                                    <div class="col-lg-3 col-6">
+                                        <figure>
+                                            <a href="#">
+                                                <img class="w-100" th:src="@{images/image/laptop/acer/1cf82f2160b145999bf6058c3d5bcd3c.jpg}" />
+                                            </a>
+                                        </figure>
+                                        <a href="#">
+                                            <strong>Dell Inspect V923</strong>
+                                        </a>
+                                        <small>19.980.000đ</small>
+                                    </div>
+                                    <div class="col-lg-3 col-6">
+                                        <figure>
+                                            <a href="#">
+                                                <img class="w-100" th:src="@{images/image/laptop/acer/1cf82f2160b145999bf6058c3d5bcd3c.jpg}" />
+                                            </a>
+                                        </figure>
+                                        <a href="#">
+                                            <strong>HP Lite 294</strong>
+                                        </a>
+                                        <small>19.980.000đ</small>
+                                    </div>
+                                    <div class="col-lg-3 col-6">
+                                        <figure>
+                                            <a href="#">
+                                                <img class="w-100" th:src="@{images/image/laptop/acer/1cf82f2160b145999bf6058c3d5bcd3c.jpg}" />
+                                            </a>
+                                        </figure>
+                                        <a href="#">
+                                            <strong>MSI Gaming V934</strong>
+                                        </a>
+                                        <small>19.980.000đ</small>
+                                    </div>
+                                    <div class="col-lg-3 col-6">
+                                        <figure>
+                                            <a href="#">
+                                                <img class="w-100" th:src="@{images/image/laptop/acer/1cf82f2160b145999bf6058c3d5bcd3c.jpg}" />
+                                            </a>
+                                        </figure>
+                                        <a href="#">
+                                            <strong>Asus Vivo A934</strong>
+                                        </a>
+                                        <small>19.980.000đ</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#bonus-carousel" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#bonus-carousel" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="home-ads-1">
+        <div class="container">
+            <a href="#">
+                <img th:src="@{images/image/ads-home/1.png}" />
+            </a>
+        </div>
+    </section>
+    <section class="home-product">
+        <div class="container">
+            <div class="background">
+                <div class="title">
+                    <h2>MÁY TÍNH LAPTOP NỔI BẬT</h2>
+                    <a href="#">Xem tất cả</a>
+                </div>
+                <ul class="row content">
+                    <li class="col-lg-3 col-6" th:each = "product : ${products}">
+                        <div class="background">
+                            <div class="avatar">
+                                <a class="zoom-box" th:href="@{'/product-detail/' + ${product.getId()}}">
+                                    <img th:src="'data:image/jpeg;base64,' + ${product.image}">
+                                </a>
+                                <label class="installment">Trả góp 0%</label>
+                                <label class="bonus">Lì xì 1.000.000đ</label>
+                            </div>
+                            <a class="title" href="#" th:text="${product.getName()}"></a>
+                            <div class="price">
+                                <span th:text="${#numbers.formatDecimal(product.costPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+                                <small>
+                                    <del th:text="${#numbers.formatDecimal(product.salePrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></del>
+                                    <em>2 ngày 05:01:02</em>
+                                </small>
+                            </div>
+                            <div class="desc">
+                                <label><i class="bi-cpu-fill"></i> <span th:text="${product.cpu}"></span></label>
+                                <label><i class="bi-phone"></i> <span th:text="${product.vga}"></span></label>
+                                <label><i class="bi-grip-vertical"></i> <span th:text="${product.ram}"></span></label>
+                                <label><i class="bi-hdd-fill"></i> <span th:text="${product.storage}"></span></label>
+                            </div>
+                            <div class="button">
+                                <a class="btn btn-danger" href="#">Mua ngay</a>
+                                <a class="btn btn-secondary" href="#">So sánh</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="home-product">
+        <div class="container">
+            <div class="background">
+                <div class="title">
+                    <h2>LAPTOP BÁN CHẠY</h2>
+                    <a href="#">Xem tất cả</a>
+                </div>
+                <ul class="row content">
+                    <li class="col-lg-3 col-6" th:each = "product : ${products}">
+                        <div class="background">
+                            <div class="avatar">
+                                <a class="zoom-box" href="#">
+                                    <img th:src="'data:image/jpeg;base64,' + ${product.image}">
+                                </a>
+                                <label class="installment">Trả góp 0%</label>
+                                <label class="bonus">Lì xì 1.000.000đ</label>
+                            </div>
+                            <a class="title" href="#" th:text="${product.getName()}"></a>
+                            <div class="price">
+                                <span th:text="${#numbers.formatDecimal(product.costPrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></span>
+                                <small>
+                                    <del th:text="${#numbers.formatDecimal(product.salePrice, 1, 'COMMA', 0, 'POINT')} + 'đ'"></del>
+                                    <em>2 ngày 05:01:02</em>
+                                </small>
+                            </div>
+                            <div class="desc">
+                                <label><i class="bi-cpu-fill"></i> <span>A14 Bionic</span></label>
+                                <label><i class="bi-phone"></i> <span>6.7&Prime;</span></label>
+                                <label><i class="bi-grip-vertical"></i> <span>6 Gb</span></label>
+                                <label><i class="bi-hdd-fill"></i> <span>128 Gb</span></label>
+                            </div>
+                            <div class="button">
+                                <a class="btn btn-danger" href="#">Mua ngay</a>
+                                <a class="btn btn-secondary" href="#">So sánh</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="home-ads-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="#">
+                        <img class="w-100" th:src="@{images/image/ads-home/2.1.png}" />
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#">
+                        <img class="w-100" th:src="@{images/image/ads-home/2.2.png}" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="home-kit">
+        <div class="container">
+            <div class="background">
+                <h2>Phụ Kiện HOT</h2>
+                <ul class="row">
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/phu-kien.png}" />
+                            <span>Phụ Kiện Nổi Bật</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/bao-da-op-lung.png}" />
+                            <span>Bao Da Ốp Lưng</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/sac-du-phong.png}" />
+                            <span>Sạc Dự Phòng</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/the-nho.png}" />
+                            <span>Thẻ Nhớ</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/apple.png}" />
+                            <span>Phụ Kiện Apple</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/mien-dan-man-hinh.png}" />
+                            <span>Miếng Dán Màn Hình</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/tai-nghe.png}" />
+                            <span>Tai Nghe</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/phu-kien-tai-che.png}" />
+                            <span>Phụ Kiện Cũ</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="row">
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/loa.png}" />
+                            <span>Loa</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/usb-o-cung.png}" />
+                            <span>USB - Ổ Cứng</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/cap-sac.png}" />
+                            <span>Sạc Cáp</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/chuot.png}" />
+                            <span>Chuột</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/ban-phim.png}" />
+                            <span>Bàn Phím</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/balo.png}" />
+                            <span>Balo - Túi Xách</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/tivi.png}" />
+                            <span>TV - BOX</span>
+                        </a>
+                    </li>
+                    <li class="col-lg col-md-3 col-6">
+                        <a href="#">
+                            <img th:src="@{images/image/kit/phu-kien-khac.png}" />
+                            <span>Phụ Kiện Khác</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="home-telecom">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <a href="#">
+                        <img class="w-100" th:src="@{images/image/ads-home/3.1.png}" />
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="#">
+                        <img class="w-100" th:src="@{images/image/ads-home/3.2.png}" />
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="#">
+                        <img class="w-100" th:src="@{images/image/ads-home/3.3.png}" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</content>
+<div th:replace="fragments :: footer"></div>
+</body>
+</html>

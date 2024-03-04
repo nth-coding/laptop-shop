@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Detail</title>
+    <style>
+        .product-detail {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        .product-detail img {
+            width: 100%;
+        }
+        .product-detail h1 {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+        .product-detail p {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        .product-detail button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .product-detail button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="product-detail">
+    <img src="product-image.jpg" alt="Product Image">
+    <h1>Product Title</h1>
+    <p>Product description goes here. This is where you would typically describe the product, its features, and any other relevant information.</p>
+    <button>Purchase</button>
+</div>
+</body>
+</html>

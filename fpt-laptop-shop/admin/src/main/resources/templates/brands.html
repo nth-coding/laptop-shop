@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}"></head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Thanh bên -->
+    <ul th:replace="~{fragments::sidebar}"></ul>
+    <!-- Kết thúc thanh bên -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Nội dung chính -->
+        <div id="content">
+
+            <!-- Thanh trên -->
+            <nav th:replace="~{fragments::top-navbar}"></nav>
+            <!-- Kết thúc thanh trên -->
+
+            <!-- Bắt đầu nội dung trang -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleAddBrandModal"
+                    data-whatever="@mdo">Thêm thương hiệu mới
+            </button>
+            <p th:if="${size == 0}">Không có thương hiệu</p>
+            <div th:if="${success}" class="text-center alert alert-success">
+                <p th:text="${success}"></p>
+            </div>
+            <div th:if="${error}" class="text-center alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+
+            <table class="table table-striped" th:if="${size > 0}">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Mô tả</th>
+                    <th scope="col">Cập nhật</th>
+                    <th scope="col">Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="brand : ${brands}" th:attr="data-brandid=${brand.id}, data-brandname=${brand.name}, data-branddescription=${brand.description}" onclick="displayBrandInfoModal(this)">
+                <th scope="row" th:text="${brand.id}"></th>
+                    <td th:text="${brand.name}"></td>
+                    <td th:text="${brand.description}"></td>
+                    <td>
+                        <a id="editButton"
+                           th:href="@{/findByBrandId(id = ${brand.id})}"
+                           class="btn btn-primary">Cập nhật</a>
+                    </td>
+                    <td>
+                        <a th:if="${brand.deleted} == true" th:href="@{/enable-brand(id = ${brand.id})}"
+                           class="btn btn-primary">Kích hoạt</a>
+                        <a th:if="${brand.deleted} == false" th:href="@{/delete-brand(id = ${brand.id})}"
+                           class="btn btn-danger">Xóa</a>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#brandInfoModal">Xem Thương hiệu</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Kết thúc nội dung chính -->
+
+            <!-- Footer -->
+            <footer th:replace="~{fragments::footer}"></footer>
+            <!-- Kết thúc Footer -->
+
+        </div>
+        <!-- Kết thúc Content Wrapper -->
+
+    </div>
+</div>
+<!-- Kết thúc Page Wrapper -->
+
+<!-- Nút cuộn lên đầu trang-->
+<a th:replace="~{fragments::scroll}"></a>
+
+<!-- Modal Thêm Thương hiệu -->
+<div class="modal fade" id="exampleAddBrandModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleAddBrandModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleAddBrandModalLabel">Thương hiệu mới</h5>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/save-brand}" method="post">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Tên thương hiệu:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Mô tả thương hiệu:</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Kết thúc Modal Thêm Thương hiệu -->
+
+<!-- Modal Chỉnh sửa thương hiệu -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa thương hiệu</h5>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/update-brand}" method="put">
+                    <div class="form-group">
+                        <label for="idEdit" class="col-form-label">ID
+                        </label> <input type="text" class="form-control" id="idEdit" name="id" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameEdit" class="col-form-label">Tên thương hiệu</label>
+                        <input type="text" class="form-control" id="nameEdit" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionEdit" class="col-form-label">Mô tả thương hiệu:</label>
+                        <textarea class="form-control" id="descriptionEdit" name="description" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Kết thúc Modal Chỉnh sửa thương hiệu -->
+
+<!-- Modal Xem Chi tiết Thương hiệu -->
+<div class="modal fade" id="brandInfoModal" tabindex="-1" role="dialog" aria-labelledby="brandInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="brandInfoModalLabel">Thông tin Thương hiệu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <strong><label for="brandId">ID:</label></strong>
+                    <p id="brandId"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="brandName">Tên thương hiệu:</label></strong>
+                    <p id="brandName"></p>
+                </div>
+                <div class="form-group">
+                    <strong><label for="brandDescription">Mô tả thương hiệu:</label></strong>
+                    <p id="brandDescription"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments::script}"></div>
+
+<script th:src="@{/js/brands.js}"></script>
+<script>
+    window.onload = function() {
+        var descriptions = document.querySelectorAll('td:nth-child(3)'); // Chọn tất cả các ô mô tả
+        descriptions.forEach(function(description) {
+            if (description.textContent.length > 100) {
+                description.textContent = description.textContent.substring(0, 100) + '...'; // Giới hạn tới 100 ký tự và thêm '...'
+            }
+        });
+    };
+
+        // Hàm này cần được thay thế bằng logic lấy thông tin thương hiệu từ server
+        function displayBrandInfoModal(element) {
+            var brandId = element.getAttribute('data-brandid');
+            var brandName = element.getAttribute('data-brandname');
+            var brandDescription = element.getAttribute('data-branddescription');
+
+            document.getElementById('brandId').textContent = brandId;
+            document.getElementById('brandName').textContent = brandName;
+            document.getElementById('brandDescription').textContent = brandDescription;
+
+            // Show the modal
+            $('#brandInfoModal').modal('show');
+        }
+</script>
+
+</body>
+
+</html>
